@@ -25,7 +25,7 @@ make run:
 
 
 make lint:
-	python3 
+	python3 -m pylint ./src/ ./testing/
 
 
 make unittest:
