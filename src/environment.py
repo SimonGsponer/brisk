@@ -52,17 +52,6 @@ class Street:
                 ]
             )
 
-    # def instantiate_street_location(self):
-    #     """TODO: UNITTEST, static typing docstring.
-
-    #     Note: -1 is added on upper edge twice to i) accomodate 0-based indexing and
-    #     ii) create a street width of desired size (inclusive counting).
-    #     """
-    #     upper_edge = random.randint(0, self.lower_boundary - self.width - 1)
-    #     lower_edge = upper_edge + self.width + 1
-
-
-    #     return upper_edge, lower_edge
 
     def increment_street(self, upper_edge, lower_edge):
         
@@ -153,42 +142,6 @@ class Street:
     def get_graph_matrix(self):
 
         return np.array(self.graph_matrix)
-
-    # def __str__(self):
-        
-    #     print_str = ""
-
-    #     for i in range(WORLD_WIDTH):
-
-    #         print_str += "\n" + "".join(["#" if item == 1 else " " for item in self.graph_matrix[i]])
-
-    #     return print_str
-
-
-
-# street = Street()
-
-# # print(street.street_upper_edges)
-# # print(street.street_lower_edges)
-# # print(street.graph_matrix)
-
-# print(street)
-
-# street = Street()
-
-# for i in range(21):
-#     sys.stdout.write('\r')
-#     # the exact output you're looking for:
-#     # sys.stdout.write("[%-20s] %d%%" % ('='*i, 10*i))
-#     # print("hey there!", flush=True)
-#     # sys.stdout.flush()
-#     sys.stdout.write("hey there!\n[%-20s] %d%%" % ('='*i, 10*i))
-#     # print(street, end = '',flush=True)
-#     # sys.stdout.write(str(street))
-#     sys.stdout.flush()
-#     street.update_street()
-#     sleep(0.25)
-
 
 import curses
 import time

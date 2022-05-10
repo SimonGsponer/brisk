@@ -10,8 +10,8 @@ from src.utils import config
 
 app_config = config.AppConfig()
 
-from environment import Street
-from bike import Bike
+from src.environment import Street
+from src.character_controller import CharacterController
 from src.engine import Engine
 from src import game_interface
 from src import stats
@@ -79,7 +79,7 @@ if __name__ == "__main__":
             
             engine = Engine(char=main_character)
             street = Street(engine=engine)
-            bike = Bike(start_street=street.graph_matrix, char_horizontal_starting_pos=engine.char_horizontal_starting_pos)
+            bike = CharacterController(start_street=street.graph_matrix, char_horizontal_starting_pos=engine.char_horizontal_starting_pos)
             engine.start_game()
             score = stats.Score(main_char_score_multiplier=main_character.speed_multiplier)
 

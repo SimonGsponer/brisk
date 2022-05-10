@@ -4,7 +4,7 @@ import numpy as np
 
 from src.utils import config
 
-class Bike():
+class CharacterController():
 
     def __init__(self, start_street, char_horizontal_starting_pos, config=config.AppConfig()):
 
@@ -71,7 +71,7 @@ class Bike():
 
 if __name__ == "__main__":
 
-    from environment import Street
+    from src.environment import Street
 
 
 
