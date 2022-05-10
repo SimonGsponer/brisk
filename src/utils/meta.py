@@ -8,7 +8,7 @@ class SingletonMeta(type):
     metaclass because it is best suited for this purpose.
     """
 
-    _instances = WeakValueDictionary()
+    _instances: WeakValueDictionary = WeakValueDictionary()
 
     def __call__(cls, *args, **kwargs):
         """

@@ -181,15 +181,15 @@ class Engine():
         curses.endwin()
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    engine = Engine(main_char_speed=1)
+#     engine = Engine(main_char_speed=1)
 
-    # str_frame = engine.generate_interface_str_frame(graph_matrix=[], current_score=0)
-    # print(len(str_frame[0]))
-    # engine.display_str_frame(str_frame=str_frame)
+#     # str_frame = engine.generate_interface_str_frame(graph_matrix=[], current_score=0)
+#     # print(len(str_frame[0]))
+#     # engine.display_str_frame(str_frame=str_frame)
 
-    engine.start_game()
+#     engine.start_game()
 
-    print(engine.get_time_frame_rate_increase)
-    print(engine.get_frame_rate)
+#     print(engine.get_time_frame_rate_increase)
+#     print(engine.get_frame_rate)

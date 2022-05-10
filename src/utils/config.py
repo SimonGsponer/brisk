@@ -9,6 +9,7 @@ AppConfig -> Singleton
 import configparser
 from pathlib import Path
 from dataclasses import dataclass
+from typing import Optional, Type
 import random
 import uuid
 
@@ -22,8 +23,8 @@ class InterfaceConfig:
     ROAD_WIDTH: int = 8
     MAX_OBSTACLE_RATIO: float = 0.5
     TOTAL_FRAME_WIDTH: int = MAIN_FRAME_WIDTH + 1
-    _STREET_INIT_UPPER_EDGE: int = None
-    _STREET_INIT_LOWER_EDGE: int = None
+    _STREET_INIT_UPPER_EDGE: Optional[int] = None
+    _STREET_INIT_LOWER_EDGE: Optional[int] = None
 
     def __post_init__(self):
         object.__setattr__(self, 'TOTAL_FRAME_WIDTH',
@@ -53,7 +54,7 @@ class InterfaceConfig:
 
 @dataclass(frozen=True)
 class GameConfigs:
-    INTERFACE_CONFIG: InterfaceConfig = InterfaceConfig
+    INTERFACE_CONFIG: Type[InterfaceConfig] = InterfaceConfig
 
 
 class AppConfig(metaclass=meta.SingletonMeta):

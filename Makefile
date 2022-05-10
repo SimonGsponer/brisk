@@ -14,6 +14,11 @@ make local_run:
 make format:
 	python3 -m yapf --in-place --recursive --style pep8 --parallel ./src/ ./testing/
 
+
+make typecheck:
+	python3 -m mypy --strict ./src/ ./testing/
+
+
 make run:
 
 	python3 -m src.main

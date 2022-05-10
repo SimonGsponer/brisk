@@ -1,4 +1,7 @@
 # brisk
+
+[![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
+
 A pet project game where the protagonist is in a rush. UI is your terminal; uses Dockered-up Python.
 
 A little demo of what brisk looks like:
