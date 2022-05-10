@@ -2,6 +2,8 @@
 timestamp:=$(shell date +%Y%m%d_%H%M%S)
 image_name:=patterned:$(timestamp)
 
+make dev_setup:
+	pip3 install -r requirements-dev.txt
 
 make local_run:
 	docker build -t $(image_name) -f ./Dockerfile . ;\
@@ -9,12 +11,19 @@ make local_run:
 	clear
 
 
+make format:
+	
+
 make run:
 
 	python3 -m src.main
 
 
-make test:
+make lint:
+	python3 
+
+
+make unittest:
 
 	python3 -m testing.unittest_main
 
