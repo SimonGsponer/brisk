@@ -1,5 +1,5 @@
-
 from weakref import WeakValueDictionary
+
 
 class SingletonMeta(type):
     """

@@ -25,8 +25,7 @@ class Obstacle:
                 the proc rate is not a probability.
         """
         emoji_display_size = Obstacle.get_char_length(
-            input_str=self.obstacle_emoji
-        )
+            input_str=self.obstacle_emoji)
         if emoji_display_size > 1:
             error_msg = f"The emoji you chose `{self.obstacle_emoji}` has a display size larger than 1 (`{emoji_display_size}`); choose a different one!"
             raise ValueError(error_msg)
@@ -34,7 +33,7 @@ class Obstacle:
         if not 0 <= self.proc_rate <= 1:
             error_msg = "proc_rate must be a probability between 0 and 1!"
             raise ValueError(error_msg)
-    
+
     @classmethod
     def get_char_length(cls, input_str):
         """Calculates the actual character length of a symbol.
@@ -47,11 +46,7 @@ class Obstacle:
         """
         char_length = 0
 
-        category_length_mapping = {
-            "W": 2,
-            "N": 1,
-            "Na": 1
-        }
+        category_length_mapping = {"W": 2, "N": 1, "Na": 1}
 
         for char in input_str:
 
@@ -72,20 +67,11 @@ class Character:
     obstacle: Obstacle
 
 
-snow = Obstacle(
-    obstacle_emoji="☃",
-    proc_rate=0.05
-)
+snow = Obstacle(obstacle_emoji="☃", proc_rate=0.05)
 
-beach = Obstacle(
-    obstacle_emoji="☼",
-    proc_rate=0.1
-)
+beach = Obstacle(obstacle_emoji="☼", proc_rate=0.1)
 
-traffic = Obstacle(
-    obstacle_emoji="$",
-    proc_rate=0.1
-)
+traffic = Obstacle(obstacle_emoji="$", proc_rate=0.1)
 
 skiing_simon = Character(
     name="Shredding Simon",
@@ -94,9 +80,7 @@ skiing_simon = Character(
     horizontal_padding=10,
     rel_horizontal_pos=0.25,
     description="Can Simon count on your help to reach the ski resort?",
-    obstacle=snow
-    )
-
+    obstacle=snow)
 
 surfing_sandy = Character(
     name="Surfing Sandy",
@@ -105,9 +89,7 @@ surfing_sandy = Character(
     horizontal_padding=20,
     rel_horizontal_pos=0.5,
     description="The waves are calling, and Sandy needs to go surfing ASAP!",
-    obstacle=beach
-    )
-
+    obstacle=beach)
 
 running_ryan = Character(
     name="Running Ryan",
@@ -115,26 +97,23 @@ running_ryan = Character(
     speed_multiplier=3,
     horizontal_padding=40,
     rel_horizontal_pos=0.75,
-    description="Ryan has overslept on his first day at work; help him reach the office!",
-    obstacle=traffic
-    )
+    description=
+    "Ryan has overslept on his first day at work; help him reach the office!",
+    obstacle=traffic)
 
 
 class CharacterFactory:
 
-    characters = dict(
-        A=skiing_simon,
-        B=surfing_sandy,
-        C=running_ryan
-    )
+    characters = dict(A=skiing_simon, B=surfing_sandy, C=running_ryan)
 
     def __init__(self):
-        
+
         pass
 
     def get_character(self, key_input):
 
-        return self.characters[CharacterFactory.key_mapping(key_input=key_input)]
+        return self.characters[CharacterFactory.key_mapping(
+            key_input=key_input)]
 
     @classmethod
     def key_mapping(cls, key_input):
@@ -148,6 +127,6 @@ class CharacterFactory:
         return key_map[str(key_input)]
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
 
     print(len("😁"))

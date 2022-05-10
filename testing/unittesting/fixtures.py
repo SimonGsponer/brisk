@@ -2,6 +2,7 @@ import pytest
 
 from src.utils import config
 
+
 @pytest.fixture
 def default_configs():
 
@@ -9,4 +10,3 @@ def default_configs():
     default_configs = config.AppConfig(config_fp=None)
 
     return default_configs
-

@@ -1,5 +1,6 @@
 import time
 
+
 class Score:
 
     base_multiplier = 2

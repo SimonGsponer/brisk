@@ -9,7 +9,7 @@ Game Phases
 * game_over
     * press any key to restart; press esc to exit.
 """
-import sys 
+import sys
 import time
 from pathlib import Path
 import curses
@@ -22,6 +22,7 @@ from src import ingame_settings
 
 app_config = config.AppConfig()
 
+
 class Interface():
 
     app_config = app_config
@@ -31,37 +32,41 @@ class Interface():
         pass
 
     def generate_lobby_landing_page(self):
-        
+
         str_frame = list()
 
         screen_messages = [
-            " HELLO! PRESS ANY ",
-            " KEY TO START OR ESC TO EXIT. "
+            " HELLO! PRESS ANY ", " KEY TO START OR ESC TO EXIT. "
         ]
 
         n_upper_fillrows, n_lower_fillrows = self.get_fillrows(
-            screen_messages=screen_messages
-        )
+            screen_messages=screen_messages)
 
         for i in range(n_upper_fillrows):
-            str_frame.append("=" * self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
+            str_frame.append(
+                "=" *
+                self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
 
         for message in screen_messages:
 
             len_rjust = (
-                (self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH + len(message) ) // 2
-            )
-            
-            str_frame.append(message.rjust(len_rjust, "=").ljust(self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH, "="))
+                (self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH
+                 + len(message)) // 2)
 
+            str_frame.append(
+                message.rjust(len_rjust, "=").ljust(
+                    self.app_config.game_config.INTERFACE_CONFIG.
+                    MAIN_FRAME_LENGTH, "="))
 
         for i in range(n_lower_fillrows):
-            str_frame.append("=" * self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)     
+            str_frame.append(
+                "=" *
+                self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
 
         return str_frame
 
     def generate_lobby_character_selection_page(self):
-        
+
         str_frame = list()
 
         screen_messages = [
@@ -71,74 +76,86 @@ class Interface():
         ]
 
         character_descriptions = [
-            f" ({key}) {char.name} {char.emoji}: {char.description} " for key, char in ingame_settings.CharacterFactory.characters.items()
+            f" ({key}) {char.name} {char.emoji}: {char.description} " for key,
+            char in ingame_settings.CharacterFactory.characters.items()
         ]
 
         screen_messages.extend(character_descriptions)
 
         n_upper_fillrows, n_lower_fillrows = self.get_fillrows(
-            screen_messages=screen_messages
-        )
+            screen_messages=screen_messages)
 
         for i in range(n_upper_fillrows):
-            str_frame.append("=" * self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
+            str_frame.append(
+                "=" *
+                self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
 
         for message in screen_messages:
 
             len_rjust = (
-                (self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH + len(message) ) // 2
-            )
-            
-            str_frame.append(message.rjust(len(message) + 5, "=").ljust(self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH, "="))
+                (self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH
+                 + len(message)) // 2)
 
+            str_frame.append(
+                message.rjust(len(message) + 5, "=").ljust(
+                    self.app_config.game_config.INTERFACE_CONFIG.
+                    MAIN_FRAME_LENGTH, "="))
 
         for i in range(n_lower_fillrows):
-            str_frame.append("=" * self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)  
+            str_frame.append(
+                "=" *
+                self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
 
         return str_frame
 
     def generate_game_over_page(self, final_score):
-        
+
         str_frame = list()
 
         screen_messages = [
-            " GAME OVER! ",
-            f" YOUR FINAL SCORE: {final_score} ",
+            " GAME OVER! ", f" YOUR FINAL SCORE: {final_score} ",
             " PRESS ANY KEY TO RESTART OR ESC to EXIT. "
         ]
 
         n_upper_fillrows, n_lower_fillrows = self.get_fillrows(
-            screen_messages=screen_messages
-        )
+            screen_messages=screen_messages)
 
         for i in range(n_upper_fillrows):
-            str_frame.append("=" * self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
+            str_frame.append(
+                "=" *
+                self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
 
         for message in screen_messages:
 
             len_rjust = (
-                (self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH + len(message) ) // 2
-            )
-            
-            str_frame.append(message.rjust(len_rjust, "=").ljust(self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH, "="))
+                (self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH
+                 + len(message)) // 2)
 
+            str_frame.append(
+                message.rjust(len_rjust, "=").ljust(
+                    self.app_config.game_config.INTERFACE_CONFIG.
+                    MAIN_FRAME_LENGTH, "="))
 
         for i in range(n_lower_fillrows):
-            str_frame.append("=" * self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)     
+            str_frame.append(
+                "=" *
+                self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
 
         return str_frame
 
     def get_fillrows(self, screen_messages):
-        
-        n_upper_fillrows = (self.app_config.game_config.INTERFACE_CONFIG.TOTAL_FRAME_WIDTH - len(screen_messages)) // 2
 
-        if (self.app_config.game_config.INTERFACE_CONFIG.TOTAL_FRAME_WIDTH - len(screen_messages)) % 2 == 1:
+        n_upper_fillrows = (
+            self.app_config.game_config.INTERFACE_CONFIG.TOTAL_FRAME_WIDTH -
+            len(screen_messages)) // 2
+
+        if (self.app_config.game_config.INTERFACE_CONFIG.TOTAL_FRAME_WIDTH -
+                len(screen_messages)) % 2 == 1:
             n_lower_fillrows = n_upper_fillrows + 1
         else:
             n_lower_fillrows = n_upper_fillrows
 
         return n_upper_fillrows, n_lower_fillrows
-
 
     @classmethod
     def display_str_frame(cls, str_frame):
@@ -166,6 +183,4 @@ if __name__ == "__main__":
 
     str_frame = game_interface.generate_lobby_character_selection_page()
 
-    game_interface.display_str_frame(
-        str_frame=str_frame
-        )
+    game_interface.display_str_frame(str_frame=str_frame)

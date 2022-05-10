@@ -14,6 +14,7 @@ import uuid
 
 from src.utils import meta
 
+
 @dataclass(frozen=True)
 class InterfaceConfig:
     MAIN_FRAME_WIDTH: int = 12
@@ -25,14 +26,16 @@ class InterfaceConfig:
     _STREET_INIT_LOWER_EDGE: int = None
 
     def __post_init__(self):
-        object.__setattr__(self, 'TOTAL_FRAME_WIDTH', self.MAIN_FRAME_WIDTH + 1)
+        object.__setattr__(self, 'TOTAL_FRAME_WIDTH',
+                           self.MAIN_FRAME_WIDTH + 1)
 
         if not self._STREET_INIT_UPPER_EDGE:
-            object.__setattr__(self, '_STREET_INIT_UPPER_EDGE', self._init_upper_edge())
+            object.__setattr__(self, '_STREET_INIT_UPPER_EDGE',
+                               self._init_upper_edge())
 
         if not self._STREET_INIT_LOWER_EDGE:
-            object.__setattr__(self, '_STREET_INIT_LOWER_EDGE', self._init_lower_edge())
-        
+            object.__setattr__(self, '_STREET_INIT_LOWER_EDGE',
+                               self._init_lower_edge())
 
     def _init_upper_edge(self):
 
@@ -44,7 +47,8 @@ class InterfaceConfig:
 
     def _init_char_vertical_pos(self):
 
-        return random.randint(self._STREET_INIT_UPPER_EDGE, self._STREET_INIT_LOWER_EDGE)
+        return random.randint(self._STREET_INIT_UPPER_EDGE,
+                              self._STREET_INIT_LOWER_EDGE)
 
 
 @dataclass(frozen=True)
@@ -53,7 +57,6 @@ class GameConfigs:
 
 
 class AppConfig(metaclass=meta.SingletonMeta):
-
 
     def __init__(self, config_fp=Path("config").joinpath("game_config.ini")):
 
@@ -66,23 +69,35 @@ class AppConfig(metaclass=meta.SingletonMeta):
         self.random_var = random.randint(1, 10)
         self.id_ = uuid.uuid4()
 
-        self.game_config = GameConfigs(INTERFACE_CONFIG=self._populate_interface_configs())
+        self.game_config = GameConfigs(
+            INTERFACE_CONFIG=self._populate_interface_configs())
 
     def _populate_interface_configs(self):
 
-        ud_main_frame_width = self.config_parser.get('INTERFACE', 'MAIN_FRAME_WIDTH', fallback=None)
-        ud_main_frame_length = self.config_parser.get('INTERFACE', 'MAIN_FRAME_LENGTH', fallback=None)
-        ud_road_width = self.config_parser.get('INTERFACE', 'ROAD_WIDTH', fallback=None)
+        ud_main_frame_width = self.config_parser.get('INTERFACE',
+                                                     'MAIN_FRAME_WIDTH',
+                                                     fallback=None)
+        ud_main_frame_length = self.config_parser.get('INTERFACE',
+                                                      'MAIN_FRAME_LENGTH',
+                                                      fallback=None)
+        ud_road_width = self.config_parser.get('INTERFACE',
+                                               'ROAD_WIDTH',
+                                               fallback=None)
 
         ud_interface_configs = dict(
-            MAIN_FRAME_WIDTH = int(ud_main_frame_width) if ud_main_frame_width else None,
-            MAIN_FRAME_LENGTH = int(ud_main_frame_length) if ud_main_frame_length else None,
-            ROAD_WIDTH = int(ud_road_width) if ud_road_width else None
-        )
+            MAIN_FRAME_WIDTH=int(ud_main_frame_width)
+            if ud_main_frame_width else None,
+            MAIN_FRAME_LENGTH=int(ud_main_frame_length)
+            if ud_main_frame_length else None,
+            ROAD_WIDTH=int(ud_road_width) if ud_road_width else None)
 
-        return InterfaceConfig(**{key:val for (key, val) in ud_interface_configs.items() if val})
+        return InterfaceConfig(
+            **{key: val
+               for (key, val) in ud_interface_configs.items() if val})
 
     def _validate_configs(self):
 
-        if int(self.config_parser.get('INTERFACE', 'MAIN_FRAME_WIDTH', fallback=None)) < 10:
+        if int(
+                self.config_parser.get(
+                    'INTERFACE', 'MAIN_FRAME_WIDTH', fallback=None)) < 10:
             raise ValueError("MAIN_FRAME_WIDTH must be at least 10.")
