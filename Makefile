@@ -3,6 +3,7 @@ timestamp:=$(shell date +%Y%m%d_%H%M%S)
 image_name:=patterned:$(timestamp)
 
 make dev_setup:
+	pip3 install -r requirements.txt ;\
 	pip3 install -r requirements-dev.txt
 
 make local_run:
@@ -10,26 +11,24 @@ make local_run:
 	docker run --interactive --tty $(image_name) ;\
 	clear
 
+make run:
+	python3 -m src.main
+
+make qa: format doccheck typecheck lint unittest
 
 make format:
 	python3 -m yapf --in-place --recursive --style pep8 --parallel ./src/ ./testing/
 
-
 make typecheck:
 	python3 -m mypy --strict ./src/ ./testing/
 
-
-make run:
-
-	python3 -m src.main
-
+make doccheck:
+	python3 -m pydocstyle --convention=google --count ./src/ ./testing/
 
 make lint:
 	python3 -m pylint ./src/ ./testing/
 
-
-make unittest:
-
+make test:
 	python3 -m testing.unittest_main
 
 make docker_cleanup:

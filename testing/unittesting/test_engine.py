@@ -9,7 +9,7 @@ from testing.unittesting.fixtures import default_configs
 
 class TestEngineClassmethods():
 
-    def test_proc_count(self):
+    def test_proc_count(self) -> None:
         """Test behaviour of counting procs."""
 
         threshold_probas = [0.1, 0.01, 0.001]
@@ -20,21 +20,21 @@ class TestEngineClassmethods():
 
         assert n_procs == 1
 
-    def test_get_n_obstacle_procs_100_pcnt(self):
+    def test_get_n_obstacle_procs_100_pcnt(self) -> None:
         """Test behaviour for proc rate = 1."""
 
         n_procs = engine.Engine.get_n_procs(proc_proba=1, n_max_procs=3)
 
         assert n_procs == 3
 
-    def test_get_n_obstacle_procs_0_pcnt(self):
+    def test_get_n_obstacle_procs_0_pcnt(self) -> None:
         """Test behaviour for proc rate = 0"""
 
         n_procs = engine.Engine.get_n_procs(proc_proba=0, n_max_procs=3)
 
         assert n_procs == 0
 
-    def test_get_n_obstacle_procs_30_pcnt(self):
+    def test_get_n_obstacle_procs_30_pcnt(self) -> None:
         """Test if proc function returns expected range."""
 
         expected_n_procs = [0, 1, 2, 3]
@@ -50,7 +50,7 @@ class TestEngineClassmethods():
             for item in effective_procs
         ])
 
-    def test_convert_graph_matrx(self):
+    def test_convert_graph_matrx(self) -> None:
 
         input_graph_matrix = np.array([[1, 1, 0], [100, 1, 2], [100, 2, 350]])
 
@@ -70,11 +70,11 @@ class TestEngineClassmethods():
 
 class TestEngine():
 
-    def test_class_init(self, default_configs):
+    def test_class_init(self, default_configs) -> None:
 
         _ = engine.Engine(char=None, app_config=default_configs)
 
-    def test_init_graph_matrix(self, default_configs):
+    def test_init_graph_matrix(self, default_configs) -> None:
 
         app_engine = engine.Engine(char=None, app_config=default_configs)
 

@@ -26,7 +26,7 @@ class InterfaceConfig:
     _STREET_INIT_UPPER_EDGE: Optional[int] = None
     _STREET_INIT_LOWER_EDGE: Optional[int] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         object.__setattr__(self, 'TOTAL_FRAME_WIDTH',
                            self.MAIN_FRAME_WIDTH + 1)
 
@@ -38,15 +38,15 @@ class InterfaceConfig:
             object.__setattr__(self, '_STREET_INIT_LOWER_EDGE',
                                self._init_lower_edge())
 
-    def _init_upper_edge(self):
+    def _init_upper_edge(self) -> int:
 
         return random.randint(0, self.MAIN_FRAME_WIDTH - 2 - self.ROAD_WIDTH)
 
-    def _init_lower_edge(self):
+    def _init_lower_edge(self) -> int:
 
         return self._STREET_INIT_UPPER_EDGE + self.ROAD_WIDTH + 1
 
-    def _init_char_vertical_pos(self):
+    def _init_char_vertical_pos(self) -> int:
 
         return random.randint(self._STREET_INIT_UPPER_EDGE,
                               self._STREET_INIT_LOWER_EDGE)
@@ -59,7 +59,7 @@ class GameConfigs:
 
 class AppConfig(metaclass=meta.SingletonMeta):
 
-    def __init__(self, config_fp=Path("config").joinpath("game_config.ini")):
+    def __init__(self, config_fp: Optional[Path] = Path("config").joinpath("game_config.ini")) -> None:
 
         self.config_parser = configparser.ConfigParser()
         if config_fp:
@@ -73,7 +73,7 @@ class AppConfig(metaclass=meta.SingletonMeta):
         self.game_config = GameConfigs(
             INTERFACE_CONFIG=self._populate_interface_configs())
 
-    def _populate_interface_configs(self):
+    def _populate_interface_configs(self) -> InterfaceConfig:
 
         ud_main_frame_width = self.config_parser.get('INTERFACE',
                                                      'MAIN_FRAME_WIDTH',
@@ -96,7 +96,7 @@ class AppConfig(metaclass=meta.SingletonMeta):
             **{key: val
                for (key, val) in ud_interface_configs.items() if val})
 
-    def _validate_configs(self):
+    def _validate_configs(self) -> None:
 
         if int(
                 self.config_parser.get(

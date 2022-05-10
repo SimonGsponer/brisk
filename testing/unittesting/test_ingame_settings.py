@@ -20,7 +20,7 @@ class TestCaseObstacle:
             (pytest.param("k", 1)),
         ],
     )
-    def test_init(self, emoji_input, proc_input):
+    def test_init(self, emoji_input: str, proc_input: float) -> None:
 
         _ = ingame_settings.Obstacle(obstacle_emoji=emoji_input,
                                      proc_rate=proc_input)
@@ -28,7 +28,7 @@ class TestCaseObstacle:
     @pytest.mark.parametrize("input_string,expected_len", [("kk", 2), ("k", 1),
                                                            ("☃", 1), ("😀", 2),
                                                            ("🔥", 2), ("🔥", 2)])
-    def test_get_char_length(self, input_string, expected_len):
+    def test_get_char_length(self, input_string: str, expected_len: int) -> None:
         output_len = ingame_settings.Obstacle.get_char_length(
             input_str=input_string)
         assert output_len == expected_len

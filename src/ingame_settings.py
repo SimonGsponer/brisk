@@ -3,6 +3,9 @@
 """
 import unicodedata
 from dataclasses import dataclass, field
+import random
+from typing import Dict, Type, TypeVar
+from typing_extensions import Self
 
 from src.utils import config
 
@@ -35,7 +38,7 @@ class Obstacle:
             raise ValueError(error_msg)
 
     @classmethod
-    def get_char_length(cls, input_str):
+    def get_char_length(cls, input_str: str) -> int:
         """Calculates the actual character length of a symbol.
 
         Args:
@@ -46,7 +49,7 @@ class Obstacle:
         """
         char_length = 0
 
-        category_length_mapping = {"W": 2, "N": 1, "Na": 1}
+        category_length_mapping: Dict[str, int] = {"W": 2, "N": 1, "Na": 1}
 
         for char in input_str:
 
@@ -102,21 +105,24 @@ running_ryan = Character(
     obstacle=traffic)
 
 
+CF = TypeVar('CF', bound='CharacterFactory')
+
+
 class CharacterFactory:
 
-    characters = dict(A=skiing_simon, B=surfing_sandy, C=running_ryan)
+    characters: Dict[str, Character] = dict(A=skiing_simon, B=surfing_sandy, C=running_ryan)
 
-    def __init__(self):
+    def __init__(self) -> None:
 
         pass
 
-    def get_character(self, key_input):
+    def get_character(self, key_input: str) -> Character:
 
         return self.characters[CharacterFactory.key_mapping(
             key_input=key_input)]
 
     @classmethod
-    def key_mapping(cls, key_input):
+    def key_mapping(cls: Type[CF], key_input: str) -> str:
 
         key_map = {
             "97": "A",
@@ -126,6 +132,12 @@ class CharacterFactory:
 
         return key_map[str(key_input)]
 
+    def get_random_character(self) -> Character:
+
+        random_char_key = random.choice(self.characters.keys())
+        char_choice = self.characters[random_char_key]
+
+        return char_choice
 
 if __name__ == '__main__':
 

@@ -13,6 +13,7 @@ import sys
 import time
 from pathlib import Path
 import curses
+from typing import List, Tuple, TypeVar, Type
 
 if __name__ == "__main__":
     sys.path.append(str(Path(__file__).parent.parent))
@@ -23,15 +24,18 @@ from src import ingame_settings
 app_config = config.AppConfig()
 
 
+InterfaceType = TypeVar('InterfaceType', bound='Interface')
+
+
 class Interface():
 
     app_config = app_config
 
-    def __init__(self):
+    def __init__(self) -> None:
 
         pass
 
-    def generate_lobby_landing_page(self):
+    def generate_lobby_landing_page(self) -> List[str]:
 
         str_frame = list()
 
@@ -65,7 +69,7 @@ class Interface():
 
         return str_frame
 
-    def generate_lobby_character_selection_page(self):
+    def generate_lobby_character_selection_page(self) -> List[str]:
 
         str_frame = list()
 
@@ -108,7 +112,7 @@ class Interface():
 
         return str_frame
 
-    def generate_game_over_page(self, final_score):
+    def generate_game_over_page(self, final_score: int) -> List[str]:
 
         str_frame = list()
 
@@ -143,7 +147,7 @@ class Interface():
 
         return str_frame
 
-    def get_fillrows(self, screen_messages):
+    def get_fillrows(self, screen_messages: List[str]) -> Tuple[int, int]:
 
         n_upper_fillrows = (
             self.app_config.game_config.INTERFACE_CONFIG.TOTAL_FRAME_WIDTH -
@@ -158,7 +162,7 @@ class Interface():
         return n_upper_fillrows, n_lower_fillrows
 
     @classmethod
-    def display_str_frame(cls, str_frame):
+    def display_str_frame(cls: Type[InterfaceType], str_frame: List[str]) -> None:
         stdscr = curses.initscr()
         stdscr.keypad(True)
         stdscr.nodelay(1)

@@ -1,22 +1,10 @@
-import unittest
+import pytest
 
 from src import game_interface
 
 
-class InterfaceTestCase(unittest.TestCase):
+class TestInterface():
 
-    def test_init(self):
+    def test_init(self) -> None:
 
-        interface = game_interface.Interface()
-
-    # def test_width_size_odd(self):
-
-    #     interface_config = game_interface.Interface()
-
-    #     assert not interface_config.main_width_size_odd
-
-    # def test_length_size_odd(self):
-
-    #     interface_config = game_interface.Interface()
-
-    #     assert not interface_config.main_length_size_odd
+        _ = game_interface.Interface()
