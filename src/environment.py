@@ -1,6 +1,7 @@
 from time import sleep
 import sys
 import random
+from typing import Tuple
 
 import numpy as np
 
@@ -10,12 +11,13 @@ STREET_TURN_PROBA = 0.5
 
 from src.utils import config
 from src import engine
+from src.engine import GraphMatrixType
 from src import ingame_settings
 
 
 class Street:
 
-    def __init__(self, engine: engine.Engine, config=config.AppConfig()):
+    def __init__(self, engine: engine.Engine, config=config.AppConfig()) -> None:
 
         self.config = config
         self.engine = engine
@@ -52,9 +54,9 @@ class Street:
                                                   self.street_lower_edges)
             ])
 
-    def increment_street(self, upper_edge, lower_edge):
+    def increment_street(self, upper_edge: int, lower_edge: int) -> Tuple[int, int]:
 
-        street_turns = random.random() <= STREET_TURN_PROBA
+        street_turns = random.random()
         street_turns_up = random.choice([True, False])
 
         upper_edge_increment = upper_edge
@@ -75,7 +77,7 @@ class Street:
 
         return upper_edge_increment, lower_edge_increment
 
-    def update_street(self):
+    def update_street(self) -> None:
 
         for row in self.graph_matrix:
 
@@ -98,7 +100,7 @@ class Street:
 
         self.add_obstacles()
 
-    def add_obstacles(self):
+    def add_obstacles(self) -> None:
 
         n_obstacles = self.engine.get_n_obstacles_to_put_on_street()
 
@@ -120,7 +122,7 @@ class Street:
                 row[0] = 2
 
     @property
-    def edge_on_upper_boundary(self):
+    def edge_on_upper_boundary(self) -> bool:
 
         if self.rightmost_upper_edge == self.upper_boundary:
             return True
@@ -128,7 +130,7 @@ class Street:
             return False
 
     @property
-    def edge_on_lower_boundary(self):
+    def edge_on_lower_boundary(self) -> bool:
 
         if self.rightmost_lower_edge == self.lower_boundary:
             return True
@@ -136,54 +138,54 @@ class Street:
             return False
 
     @property
-    def get_graph_matrix(self):
+    def get_graph_matrix(self) -> GraphMatrixType:
 
         return np.array(self.graph_matrix)
 
 
-import curses
-import time
+# import curses
+# import time
 
 
-def display_street(street, last_key_pressed):
-    """progress: 0-10"""
+# def display_street(street, last_key_pressed):
+#     """progress: 0-10"""
 
-    stdscr.addstr(0, 0, f"last key pressed: {last_key_pressed}")
+#     stdscr.addstr(0, 0, f"last key pressed: {last_key_pressed}")
 
-    for i in range(len(street.graph_matrix)):
+#     for i in range(len(street.graph_matrix)):
 
-        this_str = "".join([
-            "#" if item == 1 else "2" if item == 2 else " "
-            for item in street.graph_matrix[i]
-        ])
-        # print(this_str)
-        # print("###")
-        # print(f"{i}")
-        stdscr.addstr(i + 1, 0, this_str)
+#         this_str = "".join([
+#             "#" if item == 1 else "2" if item == 2 else " "
+#             for item in street.graph_matrix[i]
+#         ])
+#         # print(this_str)
+#         # print("###")
+#         # print(f"{i}")
+#         stdscr.addstr(i + 1, 0, this_str)
 
-    # stdscr.addstr(0, 0, "Moving file: {0}".format(filename))
-    # stdscr.addstr(1, 0, "Total progress: [{1:10}] {0}%".format(progress * 10, "#" * progress))
-    stdscr.refresh()
+#     # stdscr.addstr(0, 0, "Moving file: {0}".format(filename))
+#     # stdscr.addstr(1, 0, "Total progress: [{1:10}] {0}%".format(progress * 10, "#" * progress))
+#     stdscr.refresh()
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    street = Street(engine=engine.Engine(
-        char=ingame_settings.CharacterFactory().get_character(97)))
+#     street = Street(engine=engine.Engine(
+#         char=ingame_settings.CharacterFactory().get_character(97)))
 
-    stdscr = curses.initscr()
-    stdscr.nodelay(1)
-    curses.noecho()
-    curses.cbreak()
-    last_key_pressed = ""
+#     stdscr = curses.initscr()
+#     stdscr.nodelay(1)
+#     curses.noecho()
+#     curses.cbreak()
+#     last_key_pressed = ""
 
-    try:
-        for i in range(40):
-            display_street(street=street, last_key_pressed=last_key_pressed)
-            street.update_street()
-            last_key_pressed = stdscr.getch()
-            time.sleep(0.05)
-    finally:
-        curses.echo()
-        curses.nocbreak()
-        curses.endwin()
+#     try:
+#         for i in range(40):
+#             display_street(street=street, last_key_pressed=last_key_pressed)
+#             street.update_street()
+#             last_key_pressed = stdscr.getch()
+#             time.sleep(0.05)
+#     finally:
+#         curses.echo()
+#         curses.nocbreak()
+#         curses.endwin()

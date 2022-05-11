@@ -1,3 +1,4 @@
+# pylint: disable=no-self-use
 """Subfolder containing unittests.
 
 Every python file in .src should get its own unittesting file with a `test_`

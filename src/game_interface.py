@@ -9,20 +9,14 @@ Game Phases
 * game_over
     * press any key to restart; press esc to exit.
 """
-import sys
 import time
-from pathlib import Path
 import curses
 from typing import List, Tuple, TypeVar, Type
-
-if __name__ == "__main__":
-    sys.path.append(str(Path(__file__).parent.parent))
 
 from src.utils import config
 from src import ingame_settings
 
 app_config = config.AppConfig()
-
 
 InterfaceType = TypeVar('InterfaceType', bound='Interface')
 
@@ -37,7 +31,7 @@ class Interface():
 
     def generate_lobby_landing_page(self) -> List[str]:
 
-        str_frame = list()
+        str_frame = []
 
         screen_messages = [
             " HELLO! PRESS ANY ", " KEY TO START OR ESC TO EXIT. "
@@ -46,7 +40,7 @@ class Interface():
         n_upper_fillrows, n_lower_fillrows = self.get_fillrows(
             screen_messages=screen_messages)
 
-        for i in range(n_upper_fillrows):
+        for _ in range(n_upper_fillrows):
             str_frame.append(
                 "=" *
                 self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
@@ -62,7 +56,7 @@ class Interface():
                     self.app_config.game_config.INTERFACE_CONFIG.
                     MAIN_FRAME_LENGTH, "="))
 
-        for i in range(n_lower_fillrows):
+        for _ in range(n_lower_fillrows):
             str_frame.append(
                 "=" *
                 self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
@@ -71,7 +65,7 @@ class Interface():
 
     def generate_lobby_character_selection_page(self) -> List[str]:
 
-        str_frame = list()
+        str_frame = []
 
         screen_messages = [
             " PRESS KEY TO CHOOSE YOUR CHARACTER ",
@@ -89,23 +83,19 @@ class Interface():
         n_upper_fillrows, n_lower_fillrows = self.get_fillrows(
             screen_messages=screen_messages)
 
-        for i in range(n_upper_fillrows):
+        for _ in range(n_upper_fillrows):
             str_frame.append(
                 "=" *
                 self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
 
         for message in screen_messages:
 
-            len_rjust = (
-                (self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH
-                 + len(message)) // 2)
-
             str_frame.append(
                 message.rjust(len(message) + 5, "=").ljust(
                     self.app_config.game_config.INTERFACE_CONFIG.
                     MAIN_FRAME_LENGTH, "="))
 
-        for i in range(n_lower_fillrows):
+        for _ in range(n_lower_fillrows):
             str_frame.append(
                 "=" *
                 self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
@@ -114,7 +104,7 @@ class Interface():
 
     def generate_game_over_page(self, final_score: int) -> List[str]:
 
-        str_frame = list()
+        str_frame = []
 
         screen_messages = [
             " GAME OVER! ", f" YOUR FINAL SCORE: {final_score} ",
@@ -124,7 +114,7 @@ class Interface():
         n_upper_fillrows, n_lower_fillrows = self.get_fillrows(
             screen_messages=screen_messages)
 
-        for i in range(n_upper_fillrows):
+        for _ in range(n_upper_fillrows):
             str_frame.append(
                 "=" *
                 self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
@@ -140,7 +130,7 @@ class Interface():
                     self.app_config.game_config.INTERFACE_CONFIG.
                     MAIN_FRAME_LENGTH, "="))
 
-        for i in range(n_lower_fillrows):
+        for _ in range(n_lower_fillrows):
             str_frame.append(
                 "=" *
                 self.app_config.game_config.INTERFACE_CONFIG.MAIN_FRAME_LENGTH)
@@ -162,10 +152,11 @@ class Interface():
         return n_upper_fillrows, n_lower_fillrows
 
     @classmethod
-    def display_str_frame(cls: Type[InterfaceType], str_frame: List[str]) -> None:
+    def display_str_frame(cls: Type[InterfaceType],
+                          str_frame: List[str]) -> None:
         stdscr = curses.initscr()
         stdscr.keypad(True)
-        stdscr.nodelay(1)
+        stdscr.nodelay(True)
         curses.noecho()
         curses.cbreak()
 
@@ -179,12 +170,3 @@ class Interface():
         curses.echo()
         curses.nocbreak()
         curses.endwin()
-
-
-if __name__ == "__main__":
-
-    game_interface = Interface()
-
-    str_frame = game_interface.generate_lobby_character_selection_page()
-
-    game_interface.display_str_frame(str_frame=str_frame)

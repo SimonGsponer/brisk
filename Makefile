@@ -20,7 +20,7 @@ make format:
 	python3 -m yapf --in-place --recursive --style pep8 --parallel ./src/ ./testing/
 
 make typecheck:
-	python3 -m mypy --strict ./src/ ./testing/
+	python3 -m mypy --config-file=./devops/mypy.ini --strict ./src/ ./testing/
 
 make doccheck:
 	python3 -m pydocstyle --convention=google --count ./src/ ./testing/

@@ -5,10 +5,8 @@ TODO:
 * Dockerfile
 * relative position characters (padding)
 """
-
-from src.utils import config
-
-app_config = config.AppConfig()
+import curses
+import time
 
 from src.environment import Street
 from src.character_controller import CharacterController
@@ -16,11 +14,6 @@ from src.engine import Engine
 from src import game_interface
 from src import stats
 from src import ingame_settings
-
-import curses
-import time
-
-import numpy as np
 
 
 def display(str_frame):
@@ -34,10 +27,10 @@ def display(str_frame):
 
 if __name__ == "__main__":
 
-    game_over = False
-    playing = True
-    pressed_key = False
-    character_chosen = False
+    GAME_OVER = False
+    PLAYING = True
+    PRESSED_KEY = False
+    CHARACTER_CHOSEN = False
 
     interface = game_interface.Interface()
 
@@ -47,20 +40,20 @@ if __name__ == "__main__":
     curses.cbreak()
 
     try:
-        while not pressed_key:
+        while not PRESSED_KEY:
 
             display(str_frame=interface.generate_lobby_landing_page())
             stdscr.nodelay(0)
             last_key_pressed = stdscr.getch()
 
             if last_key_pressed == 27:
-                pressed_key = True
-                character_chosen = True
-                playing = False
+                PRESSED_KEY = True
+                CHARACTER_CHOSEN = True
+                PLAYING = False
             else:
-                pressed_key = True
+                PRESSED_KEY = True
 
-        while not character_chosen:
+        while not CHARACTER_CHOSEN:
 
             display(
                 str_frame=interface.generate_lobby_character_selection_page())
@@ -68,35 +61,36 @@ if __name__ == "__main__":
             last_key_pressed = stdscr.getch()
 
             if last_key_pressed == 27:
-                character_chosen = True
-                playing = False
+                CHARACTER_CHOSEN = True
+                PLAYING = False
             elif last_key_pressed in (97, 98, 99):
 
                 main_character = ingame_settings.CharacterFactory(
                 ).get_character(key_input=last_key_pressed)
 
-                character_chosen = True
+                CHARACTER_CHOSEN = True
 
-        while playing:
+        while PLAYING:
 
             engine = Engine(char=main_character)
             street = Street(engine=engine)
-            bike = CharacterController(start_street=street.graph_matrix,
-                                       char_horizontal_starting_pos=engine.
-                                       char_horizontal_starting_pos)
+            char_controller = CharacterController(
+                start_street=street.get_graph_matrix,
+                char_horizontal_starting_pos=engine.
+                char_horizontal_starting_pos)
             engine.start_game()
             score = stats.Score(
                 main_char_score_multiplier=main_character.speed_multiplier)
 
-            while not game_over:
+            while not GAME_OVER:
                 if score.last_ts:
                     score.increment_score()
                     street.update_street()
-                    bike.update_bike(last_key_pressed)
+                    char_controller.update_bike(last_key_pressed)
                 stdscr.nodelay(1)
 
                 engine_graph_matrix = engine.generate_graph_matrix(
-                    bike_graph_matrix=bike.create_graph_matrix(),
+                    bike_graph_matrix=char_controller.create_graph_matrix(),
                     env_graph_matrix=street.get_graph_matrix)
 
                 str_frame = engine.generate_interface_str_frame(
@@ -112,11 +106,11 @@ if __name__ == "__main__":
 
                 if (101 in engine_graph_matrix) or (102
                                                     in engine_graph_matrix):
-                    game_over = True
+                    GAME_OVER = True
 
                 time.sleep(engine.get_frame_rate)
 
-            while game_over:
+            while GAME_OVER:
                 display(str_frame=interface.generate_game_over_page(
                     final_score=score.get_current_score))
                 stdscr.nodelay(0)
@@ -124,11 +118,11 @@ if __name__ == "__main__":
                 time.sleep(1)
 
                 if last_key_pressed == 27:
-                    game_over = False
-                    playing = False
+                    GAME_OVER = False
+                    PLAYING = False
                 else:
-                    playing = True
-                    game_over = False
+                    PLAYING = True
+                    GAME_OVER = False
 
     finally:
         curses.echo()

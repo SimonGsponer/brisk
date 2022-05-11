@@ -1,14 +1,9 @@
 """Contains definitions of metaclasses."""
 
-from weakref import WeakValueDictionary
-from typing import TypeVar, Generic
+from weakref import WeakValueDictionary, ReferenceType
+from typing import TypeVar, Generic, Type, ClassVar, Dict
 
 from typing_extensions import ParamSpec
-
-
-P = ParamSpec('P')
-T = TypeVar('T')
-SingletonType = Generic[T, P]
 
 
 class SingletonMeta(type):
@@ -23,20 +18,20 @@ class SingletonMeta(type):
             will be returned, even if configs differ.
     """
 
-    _instances: WeakValueDictionary = WeakValueDictionary()
+    _instances = WeakValueDictionary()
 
-    def __call__(cls: SingletonType, *args: P.args, **kwargs: P.kwargs) -> SingletonType:
+    def __call__(cls, *args, **kwargs):
         """Makes sure class only instantiates a new object if none exists yet.
-        
+
         Args:
             *args: Variable length argument list passed at instantiation.
             **kwargs: Arbitrary keyword arguments passed at instantiation.
-        
+
         Returns:
             Class instance.
         """
         if cls not in cls._instances:
-            instance = super().__call__(*args, **kwargs)
+            instance: T = super().__call__(*args, **kwargs)
             cls._instances[cls] = instance
         return cls._instances[cls]
 

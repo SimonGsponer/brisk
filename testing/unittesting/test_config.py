@@ -1,20 +1,22 @@
-import pytest
+# pylint: disable=no-self-use, protected-access
+"""Contains all unittests for objects defined in src.utils.config"""
 
 from src.utils import config
 
 
 class TestInterfaceConfig():
+    """Tests InterfaceConfig class."""
 
     def test_init(self) -> None:
-
-        interface_config = config.InterfaceConfig()
+        """Test instantiation with default params."""
+        _ = config.InterfaceConfig()
 
     def test_init_custom_attrs(self) -> None:
-
-        interface_config = config.InterfaceConfig(MAIN_FRAME_LENGTH=100)
+        """Test instantiation with custom params."""
+        _ = config.InterfaceConfig(MAIN_FRAME_LENGTH=100)
 
     def test_init_custom_attrs_2(self) -> None:
-
+        """Test instantiation with custom params II."""
         interface_config = config.InterfaceConfig(MAIN_FRAME_WIDTH=100)
 
         assert interface_config.TOTAL_FRAME_WIDTH == 101
@@ -36,7 +38,7 @@ class TestInterfaceConfig():
         assert interface_config._STREET_INIT_UPPER_EDGE == 1
         assert interface_config._STREET_INIT_LOWER_EDGE == 1
 
-    def test_random_init_streed_edges(self) -> None:
+    def test_random_init_street_edges(self) -> None:
         """Inclusive counting makes frame width == road width."""
         interface_config = config.InterfaceConfig(MAIN_FRAME_WIDTH=6,
                                                   ROAD_WIDTH=4)
@@ -46,13 +48,14 @@ class TestInterfaceConfig():
 
 
 class TestAppConfig():
+    """Test AppConfig class."""
 
     def test_init(self) -> None:
-
+        """Test instantiation."""
         _ = config.AppConfig()
 
-    def test_init_no_config_fp(self)  -> None:
-
+    def test_init_no_config_fp(self) -> None:
+        """Test instantiation with config filepath set to None."""
         config.AppConfig.clear_instance()
         app_config = config.AppConfig(config_fp=None)
 
@@ -61,7 +64,7 @@ class TestAppConfig():
         assert app_config.game_config.INTERFACE_CONFIG.ROAD_WIDTH == 8
 
     def test_singleton_id(self) -> None:
-
+        """Test singleton behaviour."""
         app_config_1 = config.AppConfig()
 
         app_config_2 = config.AppConfig()
@@ -69,14 +72,9 @@ class TestAppConfig():
         assert id(app_config_1) == id(app_config_2)
 
     def test_singleton_random_inits(self) -> None:
-
+        """Assure singleton returns same random instance attributes."""
         app_config_1 = config.AppConfig()
 
         app_config_2 = config.AppConfig()
 
-        assert app_config_1.random_var == app_config_2.random_var
         assert app_config_1.id_ == app_config_2.id_
-
-
-if __name__ == '__main__':
-    unittest.main()
